@@ -24,8 +24,8 @@ public class SeedSite {
 
     }
 
-    public SeedSite(String SeedSite){
-
+    public SeedSite(String uri){
+        this.uri = uri;
     }
 
     public static List<SeedSite> all(){
@@ -37,6 +37,17 @@ public class SeedSite {
     }
 
     public static void create(String uri){
+        create(new SeedSite(uri));
+    }
 
+    public static void delete(String id){
+        SeedSite seedSite = SeedSite.collection.findOneById(id);
+        if(seedSite != null){
+            SeedSite.collection.remove(seedSite);
+        }
+    }
+
+    public static void removeAll(){
+        SeedSite.collection.drop();
     }
 }
