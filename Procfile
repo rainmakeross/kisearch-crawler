@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/kisearch-crawler -Dhttp.port=${PORT} -Dmongodb.uri=${MONGOLAB_URI}
+web: target/universal/stage/bin/kisearch-crawler -Dhttp.port=${PORT} -Dmongodb.uri=${MONGOLAB_URI} ${java_opts}
