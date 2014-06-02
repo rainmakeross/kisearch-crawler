@@ -33,7 +33,6 @@ public class SeedSites extends Controller {
                     SeedSite seedSite = new SeedSite(anchor.asText());
                     SeedSite.create(seedSite);
                 }
-
             }
         }
 

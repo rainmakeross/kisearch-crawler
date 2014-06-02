@@ -18,3 +18,4 @@ server.pid
 
 .idea
 *.iml
+/.target
