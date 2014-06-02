@@ -1,10 +1,9 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import models.SiteContent;
@@ -26,13 +25,17 @@ public class WebCrawler {
             + "|wav|avi|mov|mpeg|ram|m4v|pdf"
             + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
+    private String rootUrl;
+    
     private Parser parser;
     private PageFetcher pageFetcher;
     
 	private Map<WebURL, Boolean> urlSet = new HashMap<WebURL, Boolean>();
     
 	
-    public WebCrawler() {
+    public WebCrawler(String rootUrl) {
+        this.rootUrl = rootUrl;
+        
         CrawlConfig config = new CrawlConfig();
         parser = new Parser(config);
         pageFetcher = new PageFetcher(config);
@@ -41,7 +44,7 @@ public class WebCrawler {
 
     private boolean shouldVisit(WebURL url) {
         String href = url.getURL().toLowerCase();
-        return !SITE_URL_FILTERS.matcher(href).matches();
+        return !SITE_URL_FILTERS.matcher(href).matches() && href.startsWith(rootUrl);
     }
     
     private WebURL getMovedSite(WebURL webUrl) {
@@ -131,17 +134,25 @@ public class WebCrawler {
 	            String siteTitle = htmlParseData.getTitle();
 	            String siteText = htmlParseData.getText();
 	            String siteHtml = htmlParseData.getHtml();
-	            List<WebURL> links = htmlParseData.getOutgoingUrls();
+	            List<String> links = convertToStringList(htmlParseData.getOutgoingUrls());
 	
 	            System.out.println("Title : " + siteTitle);
 	            System.out.println("Text length: " + siteText.length());
 	            System.out.println("Html length: " + siteHtml.length());
 	            System.out.println("Number of outgoing links: " + links.size());
 	
-	            siteContent = new SiteContent(url, siteTitle, siteHtml, links);
+	            siteContent = new SiteContent(url, siteTitle, siteHtml, webUrl.getParentUrl(), links);
 	        }
         }
         
         return siteContent;
+    }
+
+    private List<String> convertToStringList(List<WebURL> outgoingUrls) {
+        List<String> links = new ArrayList<>();
+        for (WebURL webUrl : outgoingUrls) {
+            links.add(webUrl.getURL());
+        }
+        return links;
     }
 }

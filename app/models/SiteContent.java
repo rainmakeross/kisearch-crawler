@@ -1,19 +1,16 @@
 package models;
 
-import edu.uci.ics.crawler4j.url.WebURL;
+import java.util.List;
+
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
-import play.db.ebean.Model;
 import play.modules.mongodb.jackson.MongoDB;
-
-import javax.persistence.Entity;
-import java.util.List;
 
 /**
  * Created by kong on 2014-06-01.
  */
-public class SiteContent extends MongoModel {
+public class SiteContent {
 
     @Id
     @ObjectId
@@ -22,35 +19,78 @@ public class SiteContent extends MongoModel {
     private String url;
     private String title;
     private String content;
-    List<WebURL> links;
-    private SiteContent parent;
-    private List<SiteContent> children;
+    private String parentUrl;
+    private List<String> links;
+    
+    public static JacksonDBCollection<SiteContent, String> dataCollection = MongoDB.getCollection("sitecontent", SiteContent.class, String.class);
 
     public SiteContent() {
-        super("sitecontent", SiteContent.class);
+    }
+    
+    public SiteContent(String url, String title, String content, String parentUrl, List<String> links) {
+        this.setUrl(url);
+        this.setTitle(title);
+        this.setContent(content);
+        this.setParent(parentUrl);
+        this.setLinks(links);
     }
 
-    public SiteContent(String url, String title, String content, List<WebURL> links) {
-        super("sitecontent", SiteContent.class);
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getParentUrl() {
+        return parentUrl;
+    }
+
+    public void setParent(String parentUrl) {
+        this.parentUrl = parentUrl;
+    }
+
+    
+    public List<String> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<String> links) {
         this.links = links;
     }
 
-    public SiteContent getParent() {
-        return parent;
+    public static List<SiteContent> all() {
+        return dataCollection.find().toArray();
     }
 
-    public void setParent(SiteContent parent) {
-        this.parent = parent;
+    public static void save(SiteContent content) {
+        dataCollection.save(content);
     }
 
-    public List<SiteContent> getChildren() {
-        return children;
+    public static void delete(String id ) {
+        SiteContent model = dataCollection.findOneById(id);
+        if (model != null)
+            dataCollection.remove(model);
     }
 
-    public void setChildren(List<SiteContent> children) {
-        this.children = children;
+    public static void removeAll(){
+        dataCollection.drop();
     }
 }
