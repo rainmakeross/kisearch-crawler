@@ -7,8 +7,8 @@ import models.SeedSite;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.PageDownloader;
+import services.PageVisitor;
 import services.SiteVisitor;
-import services.WebCrawler;
 import views.html.index;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.url.WebURL;
@@ -22,11 +22,11 @@ public class SiteCrawler extends Controller {
         StringBuilder result = new StringBuilder("start crawling one site");
 
         String url = "http://www.ics.uci.edu/";
-        crawl(url);
+//        crawl(url);
 
         WebURL webUrl = new WebURL();
         webUrl.setURL(url);
-        new WebCrawler(url).visitSite(webUrl);
+        new SiteVisitor().visitSite(webUrl);
 
         return ok(index.render(result.toString() + " done"));
 
@@ -41,12 +41,19 @@ public class SiteCrawler extends Controller {
             System.out.println("visiting url :" + url);
             result.append("visiting url :" + url + " ");
 
-            crawl(url);
+//            crawl(url);
+            
+            WebURL webUrl = new WebURL();
+            webUrl.setURL(url);
+            new SiteVisitor().visitSite(webUrl);
+
         }
         
         return ok(index.render(result.toString() + " done"));
     }
 
+    // this is an alternative to crawl to download and then visit a page
+    // to be deleted
     private static void crawl(String url) throws IOException {
         System.out.println("visiting url :" + url);
 
@@ -54,7 +61,7 @@ public class SiteCrawler extends Controller {
             Page page = new PageDownloader().download(url);
 
             if (page != null) {
-                new SiteVisitor(url).visit(page);
+                new PageVisitor(url).visit(page);
             } else {
                 System.out.println("Couldn't fetch the content of the page.");
             }
