@@ -1,4 +1,4 @@
-package services;
+package crawler;
 
 import org.apache.http.HttpStatus;
 
@@ -29,9 +29,11 @@ public class PageDownloader {
 
 		PageFetchResult fetchResult = null;
 		try {
+            System.out.println("fetching header from url:" + webUrl.getURL());
 			fetchResult = pageFetcher.fetchHeader(webUrl);
 			if (fetchResult.getStatusCode() == HttpStatus.SC_OK) {
 				Page page = new Page(webUrl);
+	            System.out.println("fetching content from url:" + webUrl.getURL());
 				fetchResult.fetchContent(page);
 				if (parser.parse(page, webUrl.getURL())) {
 					return page;

@@ -1,4 +1,4 @@
-package services;
+package crawler;
 
 import java.util.ArrayList;
 import java.util.List;

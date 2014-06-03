@@ -13,6 +13,6 @@ public class SiteCrawlerTest {
 	
 	@Test
 	public void testCrawl() throws IOException {
-	    SiteCrawler.crawlOne();
+	    SitesCrawler.crawlOne();
 	}
 }
