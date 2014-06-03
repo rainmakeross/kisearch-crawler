@@ -22,7 +22,6 @@ public class SiteCrawler extends Controller {
         StringBuilder result = new StringBuilder("start crawling one site");
 
         String url = "http://www.ics.uci.edu/";
-//        crawl(url);
 
         WebURL webUrl = new WebURL();
         webUrl.setURL(url);
@@ -41,8 +40,6 @@ public class SiteCrawler extends Controller {
             System.out.println("visiting url :" + url);
             result.append("visiting url :" + url + " ");
 
-//            crawl(url);
-            
             WebURL webUrl = new WebURL();
             webUrl.setURL(url);
             new SiteVisitor().visitSite(webUrl);
@@ -50,26 +47,6 @@ public class SiteCrawler extends Controller {
         }
         
         return ok(index.render(result.toString() + " done"));
-    }
-
-    // this is an alternative to crawl to download and then visit a page
-    // to be deleted
-    private static void crawl(String url) throws IOException {
-        System.out.println("visiting url :" + url);
-
-        try {
-            Page page = new PageDownloader().download(url);
-
-            if (page != null) {
-                new PageVisitor(url).visit(page);
-            } else {
-                System.out.println("Couldn't fetch the content of the page.");
-            }
-        } catch (Exception ex) {
-            System.out.println("exception caught : " + ex.getStackTrace()
-                    + " \n");
-        }
-
     }
 
 }
