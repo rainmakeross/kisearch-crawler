@@ -6,9 +6,9 @@
 GET        /                    controllers.Application.index()
 
 GET /scrape                     controllers.SeedSites.scrape()
-GET /crawl                      controllers.SiteCrawler.crawl()
-GET /crawlOne                   controllers.SiteCrawler.crawlOne()
-GET /crawlTwo                   controllers.SiteCrawler.crawlTwo()
+GET /crawl                      controllers.SitesCrawler.crawl()
+GET /crawlOne                   controllers.SitesCrawler.crawlOne()
+GET /crawlTwo                   controllers.SitesCrawler.crawlTwo()
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file        controllers.Assets.at(path="/public", file)
