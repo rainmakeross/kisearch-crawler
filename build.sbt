@@ -11,7 +11,9 @@ libraryDependencies ++= Seq(
   "net.sourceforge.htmlunit" % "htmlunit" % "2.14",
   "edu.uci.ics" % "crawler4j" % "3.5",
   "net.vz.mongodb.jackson" %% "play-mongo-jackson-mapper" % "1.1.0",
-  "org.neo4j" % "neo4j-rest-graphdb" % "2.0.1"
+  "org.neo4j" % "neo4j-rest-graphdb" % "2.0.1",
+  "org.neo4j" % "neo4j" % "1.9",
+  "org.graphstream" % "gs-algo" % "1.1.2"
 )
 
 javacOptions ++= Seq("-source", "1.7", "-target", "1.7")

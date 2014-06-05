@@ -21,9 +21,9 @@ public class PageVisitor {
     
     private String rootUrl;
     
-    public PageVisitor(String rootUrl) {
-        this.rootUrl = rootUrl;
-    }
+    public void setRootUrl(String rootUrl) {
+		this.rootUrl = rootUrl;
+	}
 
     public boolean shouldVisit(WebURL url) {
         String href = url.getURL().toLowerCase();

@@ -1,6 +1,7 @@
 package services;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import models.SiteContent;
@@ -21,11 +22,15 @@ public class SiteVisitor {
 	private Map<String, Boolean> visitedUrls = new HashMap<String, Boolean>();
     
     public SiteVisitor() {
+    	pageVisitor = new PageVisitor();
         pageDownloader = new PageDownloader();
 	}
 
-    public void visitSite(WebURL webUrl) {
+    public void visitSite(String url) {
         
+        WebURL webUrl = new WebURL();
+        webUrl.setURL(url);
+
         WebURL movedToWebUrl = getMovedSite(webUrl);
 		if (movedToWebUrl != null) {
 			webUrl = movedToWebUrl;
@@ -35,8 +40,15 @@ public class SiteVisitor {
         Page page = pageDownloader.download(webUrl);
 
         if (page != null) {
+        	pageVisitor.setRootUrl(url);
             doVisit(page);
         }
+    }
+    
+    public void visitSite(List<String> urls) {
+    	for (String url : urls) {
+    		visitSite(url);
+    	}
     }
 
     private WebURL getMovedSite(WebURL webUrl) {
@@ -66,10 +78,6 @@ public class SiteVisitor {
     }
     
     private void doVisit(Page page) {
-    	
-    	WebURL webUrl = page.getWebURL();
-    	pageVisitor = new PageVisitor(webUrl.getURL());
-
         visit(page);
         visiteLinks();
     }

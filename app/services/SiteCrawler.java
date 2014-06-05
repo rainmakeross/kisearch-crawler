@@ -3,10 +3,16 @@ package services;
 import java.util.List;
 
 import crawler.CrawlControllerFactory;
-import crawler.PageCrawler;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
+import edu.uci.ics.crawler4j.crawler.WebCrawler;
 
 public class SiteCrawler {
+	
+	private Class<? extends WebCrawler> clazz;
+	
+	public SiteCrawler(Class<? extends WebCrawler> clazz) {
+		this.clazz = clazz;
+	}
 
     public void crawlSite(String url) throws Exception {
 
@@ -16,7 +22,7 @@ public class SiteCrawler {
         controller.addSeed(url);
         
         try {
-            controller.start(PageCrawler.class, CrawlControllerFactory.NB_CRAWLERS);
+            controller.start(clazz, CrawlControllerFactory.NB_CRAWLERS);
         } finally {
             controller.shutdown();
         }
@@ -32,7 +38,7 @@ public class SiteCrawler {
         }
         
         try {
-            controller.start(PageCrawler.class, CrawlControllerFactory.NB_CRAWLERS);
+            controller.start(clazz, CrawlControllerFactory.NB_CRAWLERS);
         } finally {
             controller.shutdown();
         }
