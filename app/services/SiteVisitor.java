@@ -96,7 +96,7 @@ public class SiteVisitor {
 			webUrl.setURL(url);
 	        Page page = new Page(webUrl);
 	        
-	        visit(page);
+	        doVisit(page);
 		}
 	}
 
