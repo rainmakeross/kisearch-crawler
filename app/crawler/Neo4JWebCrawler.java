@@ -8,9 +8,11 @@ import neo4j.CreateDBFactory;
 import neo4j.NodeConstants;
 import neo4j.RelationshipTypes;
 
+import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 
@@ -27,6 +29,7 @@ public class Neo4JWebCrawler extends WebCrawler {
 	 */
 	public Neo4JWebCrawler() {
 		this.graphDb = CreateDBFactory.createInMemoryDB();
+		this.graphDb.createNode();
 	}
 
 	@Override
@@ -67,9 +70,9 @@ public class Neo4JWebCrawler extends WebCrawler {
 					final Node wordNode = graphDb.createNode();
 					wordNode.setProperty(NodeConstants.WORD, word);
 					wordNode.setProperty(NodeConstants.INDEX, index++);
-					final Relationship relationship = pageNode
-							.createRelationshipTo(wordNode,
-									RelationshipTypes.CONTAINS);
+//					RelationshipType relationShipType = DynamicRelationshipType.withName("CONTAINS");
+					RelationshipType relationShipType = RelationshipTypes.CONTAINS;
+					final Relationship relationship = pageNode.createRelationshipTo(wordNode, relationShipType);
 					relationship.setProperty(NodeConstants.SOURCE, url);
 				}
 
@@ -77,12 +80,11 @@ public class Neo4JWebCrawler extends WebCrawler {
 					System.out.println("Linking to " + webURL);
 					final Node linkNode = graphDb.createNode();
 					linkNode.setProperty(NodeConstants.URL, webURL.getURL());
-					final Relationship relationship = pageNode
-							.createRelationshipTo(linkNode,
-									RelationshipTypes.LINK_TO);
+//					RelationshipType relationShipType = DynamicRelationshipType.withName("LINK_TO");
+					RelationshipType relationShipType = RelationshipTypes.LINK_TO;
+					final Relationship relationship = pageNode.createRelationshipTo(linkNode, relationShipType);
 					relationship.setProperty(NodeConstants.SOURCE, url);
-					relationship.setProperty(NodeConstants.DESTINATION,
-							webURL.getURL());
+					relationship.setProperty(NodeConstants.DESTINATION, webURL.getURL());
 				}
 
 				tx.success();

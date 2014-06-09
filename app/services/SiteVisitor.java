@@ -14,6 +14,13 @@ import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.fetcher.PageFetchResult;
 import edu.uci.ics.crawler4j.url.WebURL;
 
+/**
+ * SiteVisitor is a Service class and is a custom implementation service that use the PageVisitor to visit
+ * a site and recursively visits outgoing urls within the site.
+ * 
+ * @author kong on 02/06/2014
+ *
+ */
 public class SiteVisitor {
 
     private PageVisitor pageVisitor;

@@ -15,11 +15,19 @@ import crawler.Neo4JWebCrawler;
 import crawler.PageCrawler;
 
 /**
+ * This class is an implementation of the Play Controller to invoke services.
+ * 
  * Created by kong on 2014-06-01.
  */
 public class SitesCrawler extends Controller {
 
 
+    /**
+     * This method invokes the SiteVisite to visit one or multiple sites.
+     * 
+     * @return
+     * @throws IOException
+     */
     public static Result crawlOne() throws IOException {
     	Date startTime = new Date();
     	System.out.println("Start: " + startTime);
@@ -28,6 +36,7 @@ public class SitesCrawler extends Controller {
 
         String url = "www.tourisme-montreal.org/";
 
+        // SiteVisitor is a custom implementation which visit a site and recursively visits outgoing urls within the site.
         new SiteVisitor().visitSite(url);
 
     	Date endTime = new Date();
@@ -49,6 +58,7 @@ public class SitesCrawler extends Controller {
         
         List<String> urls = convertToStringList(sites);
 
+        // SiteVisitor is a custom implementation which visit a site and recursively visits outgoing urls within the site.
         new SiteVisitor().visitSite(urls);
         
     	Date endTime = new Date();
@@ -68,6 +78,8 @@ public class SitesCrawler extends Controller {
 
         String url = "www.tourisme-montreal.org/";
 
+        // SiteCrawler execute the injected WebCrawler implementation to crawl one or mutliple sites,
+        // using the built-in mutli-threading of Craw4J's CrawController.
         new SiteCrawler(PageCrawler.class).crawlSite(url); 
 
     	Date endTime = new Date();
@@ -88,6 +100,8 @@ public class SitesCrawler extends Controller {
         
         List<String> urls = convertToStringList(sites);
         
+        // SiteCrawler execute the injected WebCrawler implementation to crawl one or mutliple sites,
+        // using the built-in mutli-threading of Craw4J's CrawController.
         new SiteCrawler(PageCrawler.class).crawlSites(urls); 
         
     	Date endTime = new Date();
@@ -106,6 +120,8 @@ public class SitesCrawler extends Controller {
 
         String url = "www.tourisme-montreal.org/";
 
+        // SiteCrawler execute the injected WebCrawler implementation to crawl one or mutliple sites,
+        // using the built-in mutli-threading of Craw4J's CrawController.
         new SiteCrawler(Neo4JWebCrawler.class).crawlSite(url); 
 
     	Date endTime = new Date();
@@ -127,6 +143,8 @@ public class SitesCrawler extends Controller {
         
         List<String> urls = convertToStringList(sites);
         
+        // SiteCrawler execute the injected WebCrawler implementation to crawl one or mutliple sites,
+        // using the built-in mutli-threading of Craw4J's CrawController.
         new SiteCrawler(Neo4JWebCrawler.class).crawlSites(urls); 
 
     	Date endTime = new Date();

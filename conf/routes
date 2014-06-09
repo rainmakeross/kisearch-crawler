@@ -5,6 +5,7 @@
 # Home page
 GET        /                    controllers.Application.index()
 
+GET /search                     controllers.Neo4JSearch.search()
 GET /scrape                     controllers.SeedSites.scrape()
 GET /crawlOne                   controllers.SitesCrawler.crawlOne()
 GET /crawlOnes                  controllers.SitesCrawler.crawlOnes()

@@ -10,6 +10,12 @@ import edu.uci.ics.crawler4j.parser.Parser;
 import edu.uci.ics.crawler4j.url.URLCanonicalizer;
 import edu.uci.ics.crawler4j.url.WebURL;
 
+/**
+ * PageDownloader downloads content of a web page for a URL.
+ * 
+ * @author kong on 02/06/2014
+ *
+ */
 public class PageDownloader {
 
     public Page download(String url) {
