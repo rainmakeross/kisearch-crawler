@@ -1,0 +1,16 @@
+{
+    "name": "best-practices",
+    "description": "A package using versioning best-practices",
+    "author": "Charlie Robbins <charlie@nodejitsu.com>",
+    "dependencies": {
+        "crawler": "0.2.x",
+        "neo4j": "",
+        "simplecrawler": "",
+        "htmlparser2": "",
+        "jsdom": ""
+    },
+    "devDependencies": {
+        "vows": "0.5.x"
+    },
+    "engine": "node >= 0.10.0"
+}
